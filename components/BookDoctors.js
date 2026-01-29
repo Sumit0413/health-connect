@@ -1,12 +1,12 @@
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { router } from "expo-router";
 import React from "react";
 import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import { doctors } from "../data/doctordata";
 
 export default function BookDoctors() {
   const DoctorsData = doctors.slice(0, 4); // Get first 4 doctors for preview
-  const navigation = useNavigation();
+
   return (
     <View className="px-5 mt-5 mb-10">
       {/* 1. THE BANNER */}
@@ -36,7 +36,7 @@ export default function BookDoctors() {
       {/* 2. SECTION HEADER */}
       <View className="flex-row justify-between items-center mb-4">
         <Text className="text-xl font-bold text-gray-800">Book Doctor</Text>
-        <TouchableOpacity onPress={() => navigation.navigate("DoctorsList")}>
+        <TouchableOpacity onPress={() => router.push("/doctors-list")}>
           <Text className="text-blue-600 font-semibold">See All</Text>
         </TouchableOpacity>
       </View>
@@ -52,6 +52,12 @@ export default function BookDoctors() {
           <TouchableOpacity
             className="flex-1 bg-white rounded-2xl p-3 border border-gray-100 shadow-sm mb-4"
             activeOpacity={0.7}
+            onPress={() =>
+              router.push({
+                pathname: "/book-appointment",
+                params: { doctorId: item.id },
+              })
+            }
           >
             {/* Image + Rating */}
             <View className="relative">
@@ -95,7 +101,10 @@ export default function BookDoctors() {
             <TouchableOpacity
               className="mt-3 w-full bg-blue-100 py-2 rounded-lg items-center"
               onPress={() =>
-                navigation.navigate("Appointment", { doctor: item })
+                router.push({
+                  pathname: "/book-appointment",
+                  params: { doctorId: item.id },
+                })
               }
             >
               <Text className="text-blue-600 font-bold text-xs">Book</Text>

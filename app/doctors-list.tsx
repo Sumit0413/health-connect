@@ -1,24 +1,29 @@
+import { Ionicons, MaterialIcons, SimpleLineIcons } from "@expo/vector-icons";
+import { router, useLocalSearchParams } from "expo-router";
 import React from "react";
-import { View, Text, FlatList, Image, TouchableOpacity } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Ionicons, SimpleLineIcons, MaterialIcons } from "@expo/vector-icons";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { doctors } from "../data/doctordata";
 
 export default function DoctorsList() {
-  const navigation = useNavigation();
-  const route = useRoute();
-  const category = route.params?.category || "Specialist";
+  const insets = useSafeAreaInsets();
+  const params = useLocalSearchParams();
+  const category = (params.category as string) || "Specialist";
 
   const filteredDoctors = doctors.filter(
-    (doctor) => doctor.category === category
+    (doctor: any) => doctor.category === category,
   );
 
-  const renderDoctor = ({ item }) => (
+  const renderDoctor = ({ item }: { item: any }) => (
     <TouchableOpacity
       activeOpacity={0.7}
       className="bg-white rounded-3xl p-4 mb-5 shadow-xl shadow-slate-200 border border-slate-50 flex-row"
-      onPress={() => navigation.navigate("Appointment", { doctor: item })}
+      onPress={() =>
+        router.push({
+          pathname: "/book-appointment",
+          params: { doctorId: item.id },
+        })
+      }
     >
       {/* IMAGE CONTAINER */}
       <View className="relative">
@@ -38,21 +43,27 @@ export default function DoctorsList() {
       <View className="flex-1 ml-4 justify-between">
         <View>
           <View className="flex-row justify-between items-start">
-            <Text className="text-lg font-bold text-slate-800 flex-1 mr-2" numberOfLines={1}>
+            <Text
+              className="text-lg font-bold text-slate-800 flex-1 mr-2"
+              numberOfLines={1}
+            >
               {item.name}
             </Text>
             <TouchableOpacity className="bg-slate-50 p-2 rounded-full">
               <Ionicons name="heart-outline" size={18} color="#ef4444" />
             </TouchableOpacity>
           </View>
-          
+
           <Text className="text-blue-600 font-medium text-xs uppercase tracking-wider -mt-1">
             {item.specialization}
           </Text>
 
           <View className="flex-row items-center mt-2">
             <SimpleLineIcons name="location-pin" size={12} color="#64748b" />
-            <Text className="text-slate-500 text-xs ml-1 flex-1" numberOfLines={1}>
+            <Text
+              className="text-slate-500 text-xs ml-1 flex-1"
+              numberOfLines={1}
+            >
               {item.address}
             </Text>
           </View>
@@ -60,9 +71,13 @@ export default function DoctorsList() {
 
         {/* BOTTOM ACTION ROW */}
         <View className="flex-row justify-between items-center mt-2">
-          <Text className="text-slate-400 text-[10px] italic">Available Today</Text>
+          <Text className="text-slate-400 text-[10px] italic">
+            Available Today
+          </Text>
           <View className="bg-blue-50 px-3 py-1.5 rounded-xl">
-            <Text className="text-blue-600 font-bold text-xs text-center">Book Now</Text>
+            <Text className="text-blue-600 font-bold text-xs text-center">
+              Book Now
+            </Text>
           </View>
         </View>
       </View>
@@ -70,18 +85,20 @@ export default function DoctorsList() {
   );
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
-      {/* MODERN HEADER */}
+    <View className="flex-1 bg-white" style={{ paddingTop: insets.top }}>
+      {/* HEADER */}
       <View className="flex-row items-center justify-between px-6 py-4 bg-white shadow-sm">
-        <TouchableOpacity 
-          onPress={() => navigation.goBack()}
+        <TouchableOpacity
+          onPress={() => router.back()}
           className="w-10 h-10 items-center justify-center border border-slate-100 rounded-xl"
         >
           <Ionicons name="chevron-back" size={20} color="#1e293b" />
         </TouchableOpacity>
 
-        <Text className="text-xl font-extrabold text-slate-800">{category}</Text>
-        
+        <Text className="text-xl font-extrabold text-slate-800">
+          {category}
+        </Text>
+
         <TouchableOpacity className="w-10 h-10 items-center justify-center">
           <Ionicons name="options-outline" size={20} color="#1e293b" />
         </TouchableOpacity>
@@ -92,14 +109,20 @@ export default function DoctorsList() {
         data={filteredDoctors}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderDoctor}
-        contentContainerStyle={{ paddingHorizontal: 20, paddingTop: 20, paddingBottom: 40 }}
+        contentContainerStyle={{
+          paddingHorizontal: 20,
+          paddingTop: 20,
+          paddingBottom: 40,
+        }}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={() => (
           <View className="mt-20 items-center">
-            <Text className="text-slate-400">No doctors found in this category.</Text>
+            <Text className="text-slate-400">
+              No doctors found in this category.
+            </Text>
           </View>
         )}
       />
-    </SafeAreaView>
+    </View>
   );
 }

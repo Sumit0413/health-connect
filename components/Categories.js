@@ -1,8 +1,7 @@
-import { View, Text, Image, FlatList, TouchableOpacity } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { router } from "expo-router";
+import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 
 export default function Categories() {
-
   const CategoriesData = [
     {
       id: 1,
@@ -45,7 +44,7 @@ export default function Categories() {
       image: require("../assets/Categories/Vaccine.webp"),
     },
   ];
-  const navigation = useNavigation();
+
   return (
     <View className="mt-5 px-5">
       {/* Header */}
@@ -61,9 +60,12 @@ export default function Categories() {
         scrollEnabled={false} // Disable scroll if this is inside a scrollview already
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <TouchableOpacity className="items-center mb-4 w-[22%]"
-            onPress={() => {navigation.navigate("DoctorsList", {
-                category: item.title,
+          <TouchableOpacity
+            className="items-center mb-4 w-[22%]"
+            onPress={() => {
+              router.push({
+                pathname: "/doctors-list",
+                params: { category: item.title },
               });
             }}
           >

@@ -1,10 +1,5 @@
-import { SafeAreaView } from "react-native-safe-area-context";
-import RootStack from "../Navigations/RootStack";
+import { Redirect } from "expo-router";
 
 export default function Index() {
-  return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-       <RootStack />
-    </SafeAreaView>
-  );
+  return <Redirect href="/(tabs)" />;
 }
