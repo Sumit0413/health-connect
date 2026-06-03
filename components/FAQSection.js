@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, LayoutAnimation, Platform, UIManager } from 'react-native';
+import { View, Text, TouchableOpacity, LayoutAnimation, Platform, UIManager, StyleSheet } from 'react-native';
 import React, { useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -9,7 +9,6 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
 
 export default function FAQSection() {
   const [expandedId, setExpandedId] = useState(null);
-
 
   const FAQData = [
     {
@@ -50,16 +49,15 @@ export default function FAQSection() {
   };
 
   return (
-    <View className="px-5  mb-10">
+    <View style={styles.container}>
       
       {/* Header */}
-      <View className='flex-row justify-between items-center mb-6'>
-        <Text className='text-xl font-bold text-gray-800'>FAQs</Text>
-       
+      <View style={styles.header}>
+        <Text style={styles.title}>FAQs</Text>
       </View>
 
       {/* List */}
-      <View className="space-y-4"> 
+      <View style={styles.listContainer}> 
         {FAQData.map((item) => {
           const isOpen = expandedId === item.id;
 
@@ -68,40 +66,103 @@ export default function FAQSection() {
               key={item.id}
               activeOpacity={0.9}
               onPress={() => toggleExpand(item.id)}
-              className={`p-4 rounded-2xl bg-white mb-4 shadow-sm border ${
-                isOpen ? 'border-blue-500' : 'border-gray-100'
-              }`}
+              style={[
+                styles.faqCard, 
+                isOpen ? styles.faqCardOpen : null
+              ]}
             >
-              
               {/* Question Row */}
-              <View className="flex-row justify-between items-center">
-                <Text className={`text-base font-semibold flex-1 mr-4 ${
-                  isOpen ? 'text-blue-600' : 'text-gray-800'
-                }`}>
+              <View style={styles.questionRow}>
+                <Text style={[
+                  styles.questionText,
+                  isOpen ? styles.questionTextOpen : null
+                ]}>
                   {item.question}
                 </Text>
                 
                 <Ionicons 
-                  name={isOpen ? "chevron-up-circle" : "chevron-down-circle-outline"} 
-                  size={24} 
-                  color={isOpen ? "#3B82F6" : "#9CA3AF"} 
+                  name={isOpen ? "chevron-up" : "chevron-down"} 
+                  size={20} 
+                  color={isOpen ? "#000" : "#666"} 
                 />
               </View>
 
-              {/* Answer (Visible only if open) */}
+              {/* Answer */}
               {isOpen && (
-                <View className="mt-3 pt-3 border-t border-gray-100">
-                  <Text className="text-gray-500 leading-5 text-sm">
+                <View style={styles.answerContainer}>
+                  <Text style={styles.answerText}>
                     {item.answer}
                   </Text>
                 </View>
               )}
-
             </TouchableOpacity>
           );
         })}
       </View>
-
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 20,
+    marginBottom: 40,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: '800',
+    color: '#000',
+    letterSpacing: -0.5,
+  },
+  listContainer: {
+    gap: 12,
+  },
+  faqCard: {
+    backgroundColor: '#fff',
+    borderRadius: 16,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: '#E5E5E5',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
+    marginBottom: 12,
+  },
+  faqCardOpen: {
+    borderColor: '#000', // Black border when open
+  },
+  questionRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  questionText: {
+    flex: 1,
+    fontSize: 15,
+    fontWeight: '700',
+    color: '#000',
+    marginRight: 16,
+  },
+  questionTextOpen: {
+    color: '#000',
+  },
+  answerContainer: {
+    marginTop: 12,
+    paddingTop: 12,
+    borderTopWidth: 1,
+    borderTopColor: '#E5E5E5',
+  },
+  answerText: {
+    color: '#666',
+    fontSize: 14,
+    lineHeight: 22,
+  }
+});

@@ -19,7 +19,7 @@ export default function MyAppointments() {
   };
 
   const renderAppointmentCard = ({ item }: { item: any }) => (
-    <View className="bg-white rounded-2xl p-4 mb-4 border border-gray-100 shadow-sm">
+    <View className="bg-white rounded-2xl p-4 mb-4 border border-gray-100" style={{ shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.05, shadowRadius: 3, elevation: 2 }}>
       {/* Doctor Info */}
       <View className="flex-row items-center">
         <Image
@@ -88,7 +88,7 @@ export default function MyAppointments() {
         No Appointments
       </Text>
       <Text className="text-gray-500 text-center px-10">
-        You don't have any appointments. Book a doctor to get started!
+        {"You don't have any appointments. Book a doctor to get started!"}
       </Text>
     </View>
   );

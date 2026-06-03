@@ -1,5 +1,5 @@
 import { router } from "expo-router";
-import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, Image, Text, TouchableOpacity, View, StyleSheet } from "react-native";
 
 export default function Categories() {
   const CategoriesData = [
@@ -46,22 +46,22 @@ export default function Categories() {
   ];
 
   return (
-    <View className="mt-5 px-5">
+    <View style={styles.container}>
       {/* Header */}
-      <View className="flex-row justify-between items-center mb-4">
-        <Text className="text-xl font-bold">Categories</Text>
+      <View style={styles.header}>
+        <Text style={styles.title}>Categories</Text>
       </View>
 
-      {/* 2. FIX: Use FlatList for a clean Grid Layout */}
       <FlatList
         data={CategoriesData}
-        numColumns={4} // Makes it a grid of 4 columns
-        columnWrapperStyle={{ justifyContent: "space-between" }} // Spacing between columns
-        scrollEnabled={false} // Disable scroll if this is inside a scrollview already
+        numColumns={4}
+        columnWrapperStyle={styles.row}
+        scrollEnabled={false}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <TouchableOpacity
-            className="items-center mb-4 w-[22%]"
+            style={styles.itemContainer}
+            activeOpacity={0.7}
             onPress={() => {
               router.push({
                 pathname: "/doctors-list",
@@ -69,14 +69,14 @@ export default function Categories() {
               });
             }}
           >
-            <View className="bg-gray-100 p-3 rounded-full mb-2">
+            <View style={styles.iconContainer}>
               <Image
                 source={item.image}
-                className="w-10 h-10 rounded-full" // Adjust size as needed
+                style={styles.image}
                 resizeMode="contain"
               />
             </View>
-            <Text className="text-xs text-center font-medium text-gray-700">
+            <Text style={styles.itemTitle}>
               {item.title}
             </Text>
           </TouchableOpacity>
@@ -85,3 +85,53 @@ export default function Categories() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 20,
+    marginTop: 20,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: '800',
+    color: '#000',
+    letterSpacing: -0.5,
+  },
+  row: {
+    justifyContent: 'space-between',
+  },
+  itemContainer: {
+    alignItems: 'center',
+    marginBottom: 20,
+    width: '22%',
+  },
+  iconContainer: {
+    backgroundColor: '#fff',
+    padding: 12,
+    borderRadius: 24,
+    marginBottom: 8,
+    borderWidth: 1,
+    borderColor: '#E5E5E5',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  image: {
+    width: 28,
+    height: 28,
+  },
+  itemTitle: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#333',
+    textAlign: 'center',
+  }
+});

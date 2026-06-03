@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, Image, Text, TouchableOpacity, View, StyleSheet } from "react-native";
 
 export default function MedicalStore() {
   const MedicalStoreData = [
@@ -26,12 +26,12 @@ export default function MedicalStore() {
   ];
 
   return (
-    <View className="mt-5 px-5">
+    <View style={styles.container}>
       {/* Header */}
-      <View className="flex-row justify-between items-center mb-4">
-        <Text className="text-xl font-bold">Nearby Medical Stores</Text>
-        <TouchableOpacity>
-          <Text className="text-blue-500 font-medium">See All</Text>
+      <View style={styles.header}>
+        <Text style={styles.title}>Nearby Medical Stores</Text>
+        <TouchableOpacity activeOpacity={0.7}>
+          <Text style={styles.seeAllText}>See All</Text>
         </TouchableOpacity>
       </View>
 
@@ -41,22 +41,25 @@ export default function MedicalStore() {
         showsHorizontalScrollIndicator={false}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <TouchableOpacity className="mr-4 bg-white rounded-xl border border-gray-200 w-48 shadow-sm">
+          <TouchableOpacity 
+            style={styles.cardContainer}
+            activeOpacity={0.8}
+          >
             <Image
               source={item.uri}
-              className="w-full h-32 rounded-t-xl"
+              style={styles.image}
               resizeMode="cover"
             />
 
             {/* Store Info */}
-            <View className="p-3">
+            <View style={styles.infoContainer}>
               <Text
-                className="text-lg font-bold text-gray-800"
+                style={styles.storeName}
                 numberOfLines={1}
               >
                 {item.name}
               </Text>
-              <Text className="text-gray-500 text-sm mt-1">Open 24/7</Text>
+              <Text style={styles.statusText}>Open 24/7</Text>
             </View>
           </TouchableOpacity>
         )}
@@ -64,3 +67,64 @@ export default function MedicalStore() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    marginTop: 20,
+    paddingLeft: 20, 
+    // we only pad left so the horizontal list scrolls to the edge of the screen on the right
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+    paddingRight: 20, // Add right padding here for the header
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: '800',
+    color: '#000',
+    letterSpacing: -0.5,
+  },
+  seeAllText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#000',
+  },
+  cardContainer: {
+    marginRight: 16,
+    backgroundColor: '#fff',
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#E5E5E5',
+    width: 200,
+    overflow: 'hidden',
+    // Minimal shadow
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
+    marginBottom: 10,
+  },
+  image: {
+    width: '100%',
+    height: 120,
+    backgroundColor: '#F5F5F5',
+  },
+  infoContainer: {
+    padding: 12,
+  },
+  storeName: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#000',
+    marginBottom: 4,
+  },
+  statusText: {
+    fontSize: 12,
+    fontWeight: '500',
+    color: '#666',
+  }
+});

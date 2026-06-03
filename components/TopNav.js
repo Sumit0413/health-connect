@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import EvilIcons from '@expo/vector-icons/EvilIcons';
 import Octicons from '@expo/vector-icons/Octicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
@@ -10,20 +10,23 @@ export const TopNav = () => {
       {/* 1. Header Row (Location + Arrow) */}
       <View style={styles.headerContainer}>
         <Text style={styles.headerLabel}>Location</Text>
-        <MaterialIcons name="keyboard-arrow-down" size={20} color="black" />
+        <MaterialIcons name="keyboard-arrow-down" size={16} color="#666" />
       </View>
 
       {/* 2. Main Row (Pin + City ....... Bell) */}
       <View style={styles.rowContainer}>
         
         {/* Left side: Icon + City Name */}
-        <View style={styles.locationWrapper}>
-          <EvilIcons name="location" size={20} color="black" />
+        <TouchableOpacity style={styles.locationWrapper} activeOpacity={0.7}>
+          <EvilIcons name="location" size={24} color="#000" style={{ marginLeft: -4 }} />
           <Text style={styles.cityText}>Jamshedpur, India</Text>
-        </View>
+        </TouchableOpacity>
 
         {/* Right side: Bell Icon */}
-        <Octicons name="bell" size={20} color="black" />
+        <TouchableOpacity style={styles.bellButton} activeOpacity={0.7}>
+          <Octicons name="bell" size={20} color="#000" />
+          <View style={styles.notificationDot} />
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -31,30 +34,32 @@ export const TopNav = () => {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    padding: 10, 
+    paddingHorizontal: 20,
+    paddingTop: 15,
+    paddingBottom: 10,
     backgroundColor: "white",
   },
   
-  // ✅ ADDED THIS: Aligns "Location" and "Arrow" horizontally
   headerContainer: {
     flexDirection: 'row', 
     alignItems: 'center',
-    marginLeft: 10, // Aligns with the location icon below
-    marginBottom: 5,
+    marginLeft: 2,
+    marginBottom: 4,
   },
   
   headerLabel: {
-    fontSize: 14,          
+    fontSize: 13,          
     fontWeight: '600',
-    color: '#6B7280', // Gray color looks more like a "Label"
-    marginRight: 4,   // Adds space between text and arrow
+    color: '#888', // Subtle gray
+    marginRight: 4,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
   },
   
   rowContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between', // Pushes Bell to the far right
+    justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 10,
   },
   
   locationWrapper: {
@@ -63,9 +68,29 @@ const styles = StyleSheet.create({
   },
   
   cityText: {
-    fontSize: 16,     
-    fontWeight: 'bold', 
+    fontSize: 18,     
+    fontWeight: '800', 
     marginLeft: 2, 
-    color: '#111827', 
+    color: '#000', 
+    letterSpacing: -0.5,
+  },
+
+  bellButton: {
+    position: 'relative',
+    padding: 8,
+    backgroundColor: '#F5F5F5',
+    borderRadius: 20,
+  },
+
+  notificationDot: {
+    position: 'absolute',
+    top: 8,
+    right: 9,
+    width: 8,
+    height: 8,
+    backgroundColor: '#000',
+    borderRadius: 4,
+    borderWidth: 1.5,
+    borderColor: '#F5F5F5',
   }
 });

@@ -1,11 +1,10 @@
 import React from 'react';
-import { View, Text, Image, Dimensions } from 'react-native';
+import { View, Text, Image, Dimensions, StyleSheet } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 
 export default function HomeCarousel() {
   const { width } = Dimensions.get('window');
   
-  // 1. UPDATED DATA: Now includes Title and Subtitle for a Medical App
   const carouselData = [
     {
       id: 1,
@@ -15,21 +14,20 @@ export default function HomeCarousel() {
     },
     {
       id: 2,
-       image: require('../assets/images/image3.png'),
-      
+      image: require('../assets/images/image3.png'),
       title: "Order Medicines",
       subtitle: "Get genuine medicines delivered to your doorstep."
     },
     {
       id: 3,
-     image: require('../assets/images/image2.png'),
+      image: require('../assets/images/image2.png'),
       title: "Lab Tests at Home",
       subtitle: "Schedule diagnostics and health checkups easily."
     },
   ];
 
   return (
-    <View className="items-center mt-5">
+    <View style={styles.container}>
       <Carousel
         loop
         width={width} 
@@ -37,29 +35,26 @@ export default function HomeCarousel() {
         autoPlay={true}
         data={carouselData}
         scrollAnimationDuration={1000}
-        
         renderItem={({ item }) => (
-          <View className="flex-1 px-4 justify-center"> 
-            
-            {/* Container for Image + Text */}
-            <View className="relative w-full h-full rounded-2xl overflow-hidden">
+          <View style={styles.slideContainer}> 
+            <View style={styles.cardContainer}>
               
               {/* 1. The Image */}
               <Image
                 source={item.image}
-                className="w-full h-full" 
+                style={styles.image}
                 resizeMode="cover"
               />
 
               {/* 2. Dark Overlay (Makes text readable) */}
-              <View className="absolute inset-0 bg-black/30" />
+              <View style={styles.overlay} />
 
-              {/* 3. The Text Content (Positioned Absolute) */}
-              <View className="absolute bottom-0 left-0 p-5 w-full">
-                <Text className="text-white text-2xl font-bold mb-1 shadow-sm">
+              {/* 3. The Text Content */}
+              <View style={styles.textContainer}>
+                <Text style={styles.titleText}>
                   {item.title}
                 </Text>
-                <Text className="text-gray-100 text-sm font-medium shadow-sm">
+                <Text style={styles.subtitleText}>
                   {item.subtitle}
                 </Text>
               </View>
@@ -71,3 +66,57 @@ export default function HomeCarousel() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  slideContainer: {
+    flex: 1,
+    paddingHorizontal: 20,
+    justifyContent: 'center',
+  },
+  cardContainer: {
+    position: 'relative',
+    width: '100%',
+    height: '100%',
+    borderRadius: 24,
+    overflow: 'hidden',
+    backgroundColor: '#000',
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+    opacity: 0.8,
+  },
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.4)',
+  },
+  textContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    width: '100%',
+    padding: 24,
+  },
+  titleText: {
+    color: '#fff',
+    fontSize: 24,
+    fontWeight: '800',
+    marginBottom: 4,
+    letterSpacing: -0.5,
+  },
+  subtitleText: {
+    color: 'rgba(255,255,255,0.8)',
+    fontSize: 14,
+    fontWeight: '500',
+    lineHeight: 20,
+  }
+});

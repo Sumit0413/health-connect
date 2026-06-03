@@ -87,7 +87,7 @@ export default function DoctorsList() {
   return (
     <View className="flex-1 bg-white" style={{ paddingTop: insets.top }}>
       {/* HEADER */}
-      <View className="flex-row items-center justify-between px-6 py-4 bg-white shadow-sm">
+      <View className="flex-row items-center justify-between px-6 py-4 bg-white" style={{ shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.05, shadowRadius: 3, elevation: 2 }}>
         <TouchableOpacity
           onPress={() => router.back()}
           className="w-10 h-10 items-center justify-center border border-slate-100 rounded-xl"

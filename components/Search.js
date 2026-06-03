@@ -1,22 +1,49 @@
-import { View, TextInput } from 'react-native'
+import { View, TextInput, StyleSheet } from 'react-native'
 import Feather from '@expo/vector-icons/Feather';
 import { useState } from 'react';
 
-
 export default function Search() {
-    const [search ,Setsearch]=useState();
+  const [search, setSearch] = useState("");
+
   return (
-    <View>
-      <View style={{
-        flexDirection:"row",alignItems:"center",gap:8, margin:15, padding: 6, borderWidth:1,
-         borderColor:"#ccc", borderRadius:8}}>
-     <Feather name="search" size={20} color="gray" />
-        <TextInput placeholder="Search Doctor"
-        style={{width:"100%"}} 
-        onChangeText={(value)=>(Setsearch(value))}
-        onSubmitEditing={()=>(console.log(search))}
+    <View style={styles.container}>
+      <View style={styles.searchBar}>
+        <Feather name="search" size={20} color="#666" style={styles.icon} />
+        <TextInput 
+          placeholder="Search Doctor, Medicines..."
+          placeholderTextColor="#999"
+          style={styles.input} 
+          value={search}
+          onChangeText={setSearch}
+          onSubmitEditing={() => console.log(search)}
         />
       </View>
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 20,
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  searchBar: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#F9F9F9",
+    borderWidth: 1,
+    borderColor: "#E5E5E5",
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+  },
+  icon: {
+    marginRight: 8,
+  },
+  input: {
+    flex: 1,
+    fontSize: 15,
+    color: "#000",
+  }
+});
